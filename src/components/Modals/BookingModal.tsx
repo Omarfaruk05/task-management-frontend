@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Label, Modal, TextInput, Textarea } from "keep-react";
+import { Button, Label, Modal, Spinner, TextInput, Textarea } from "keep-react";
 import { useEffect, useState } from "react";
 import { ITVShow } from "../../interfaces/shows";
 
@@ -24,7 +24,7 @@ const BookingModal = ({ id, showModal, setShowModal, handleModal }: any) => {
   return (
     <>
       <Modal size="3xl" show={showModal} position={"center"}>
-        {showDetails && (
+        {showDetails ? (
           <div className="relative">
             <Modal.Body>
               <div className="grid grid-cols-3 gap-4 items-center">
@@ -109,6 +109,10 @@ const BookingModal = ({ id, showModal, setShowModal, handleModal }: any) => {
                 <div className="col-span-2 relative"></div>
               </div>
             </Modal.Body>
+          </div>
+        ) : (
+          <div>
+            <Spinner color={"success"} size={"xl"} />
           </div>
         )}
       </Modal>
