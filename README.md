@@ -1,7 +1,5 @@
 # Project Name: [Cinema](https://cinema-blush.vercel.app/)
 
-##
-
 - ## Instruction for Clone and start porject on your local matchine.
 
 ### step-1
