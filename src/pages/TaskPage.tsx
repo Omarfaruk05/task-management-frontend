@@ -1,7 +1,22 @@
-import { Badge, Button, Table, TextInput } from "keep-react";
-import { MagnifyingGlass, Trash, Pencil } from "phosphor-react";
+import { Badge, Button, Spinner, Table, TextInput } from "keep-react";
+import { MagnifyingGlass } from "phosphor-react";
+import { Link } from "react-router-dom";
+import { useGetTasksQuery } from "../redux/api/taskApi";
+import TableRow from "../components/TableRow";
+import { useState } from "react";
 
 const TaskPage = () => {
+  const { data, isLoading } = useGetTasksQuery(undefined);
+
+  const tasks = data?.data;
+
+  if (isLoading) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        <Spinner color="info" size="lg" />
+      </div>
+    );
+  }
   return (
     <div>
       <Table
@@ -15,7 +30,7 @@ const TaskPage = () => {
             <div className="flex items-center gap-5">
               <p className="text-body-1 font-semibold text-metal-600">Tasks</p>
               <Badge size="xs" colorType="light" color="gray">
-                100
+                {tasks?.length}
               </Badge>
             </div>
             <div className="flex items-center gap-5">
@@ -29,6 +44,13 @@ const TaskPage = () => {
                 addonPosition="left"
               />
             </div>
+            <div>
+              <Link to={"/task/create"}>
+                <Button type="dashed" size={"sm"} color={"success"}>
+                  Create Task
+                </Button>
+              </Link>
+            </div>
           </div>
         </Table.Caption>
         <Table.Head>
@@ -41,30 +63,9 @@ const TaskPage = () => {
           <Table.HeadCell>Action</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-gray-25 divide-y">
-          <Table.Row className="bg-white">
-            <Table.Cell>
-              <h1>Omar Faruk</h1>
-            </Table.Cell>
-
-            <Table.Cell>
-              <p>UI/UX Designer</p>
-            </Table.Cell>
-            <Table.Cell>nevaeh.simmons@example.com</Table.Cell>
-
-            <Table.Cell>
-              <Badge colorType="light" color="success" dot={true}>
-                Active
-              </Badge>
-            </Table.Cell>
-            <Table.Cell className="flex items-center gap-2">
-              <Button type={"primary"} size={"sm"} color="warning">
-                <Pencil />
-              </Button>
-              <Button type={"primary"} size={"sm"} color="error">
-                <Trash />
-              </Button>
-            </Table.Cell>
-          </Table.Row>
+          {tasks?.map((task, index: number) => (
+            <TableRow task={task} key={index} />
+          ))}
         </Table.Body>
       </Table>
     </div>

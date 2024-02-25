@@ -22,7 +22,6 @@ const LoginPage = () => {
     const password = e.target.password.value;
 
     const userInfo = { email, password };
-    console.log(userInfo);
     try {
       const res = await login(userInfo).unwrap();
       console.log(res);
@@ -30,11 +29,11 @@ const LoginPage = () => {
       if (res?.errorMessages) {
         toast.error(`${res?.errorMessages}`);
       }
-
+      console.log(res);
       if (res) {
         navigate("/");
         toast.success("Login Successfull.");
-        await storeUserInfo({ accessToken: res?.accessToken });
+        await storeUserInfo({ accessToken: res?.data?.accessToken });
       }
 
       const { id } = (await getUserInfo()) as any;

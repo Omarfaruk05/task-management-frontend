@@ -6,22 +6,6 @@ const USER_URL = "/users";
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    addUser: build.mutation({
-      query: (data) => ({
-        url: `/auth/signup`,
-        method: "POST",
-        data,
-      }),
-      invalidatesTags: [tagTypes.auth],
-    }),
-    login: build.mutation({
-      query: (data) => ({
-        url: `/auth/signin`,
-        method: "POST",
-        data,
-      }),
-      invalidatesTags: [tagTypes.auth],
-    }),
     getUsers: build.query({
       query: () => ({
         url: USER_URL,
@@ -56,8 +40,6 @@ export const userApi = baseApi.injectEndpoints({
 });
 
 export const {
-  useAddUserMutation,
-  useLoginMutation,
   useGetSingUserQuery,
   useGetUsersQuery,
   useDeleteUserMutation,

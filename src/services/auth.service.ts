@@ -11,6 +11,7 @@ export const getUserInfo = () => {
 
   if (authToken) {
     const decodedData = decodedToken(authToken);
+    console.log(decodedData);
 
     return decodedData;
   } else {
