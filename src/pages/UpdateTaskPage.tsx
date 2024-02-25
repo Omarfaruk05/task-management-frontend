@@ -1,20 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Label, Spinner, TextInput, Textarea } from "keep-react";
+import { Label, Spinner, Textarea } from "keep-react";
 import { useEffect, useState } from "react";
-import { DatePicker } from "keep-react";
 import { toast } from "react-toastify";
 import {
-  useCreateTaskMutation,
   useGetSingtaskQuery,
   useUpdateTaskMutation,
 } from "../redux/api/taskApi";
-import { getUserInfo } from "../services/auth.service";
 import { Params, useParams } from "react-router-dom";
 
 const UpdateTaskPage = () => {
   const [selecttedStatus, setSelectedStatus] = useState("");
-  const { _id }: any = getUserInfo();
   const { id } = useParams<Params<string>>();
 
   const { data, isLoading } = useGetSingtaskQuery(id);

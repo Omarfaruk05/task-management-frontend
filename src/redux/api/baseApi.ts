@@ -7,7 +7,7 @@ const accessToken = getFromLocalStorage("accessToken");
 export const baseApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api/v1",
+    baseUrl: "https://task-management-backend-two.vercel.app/api/v1",
     prepareHeaders: (headers) => {
       // Add the access token to the headers
       headers.set("Authorization", `${accessToken}`);
