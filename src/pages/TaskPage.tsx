@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Badge, Button, Spinner, Table, TextInput } from "keep-react";
 import { MagnifyingGlass } from "phosphor-react";
 import { Link } from "react-router-dom";
 import { useGetTasksQuery } from "../redux/api/taskApi";
 import TableRow from "../components/TableRow";
-import { useState } from "react";
 
 const TaskPage = () => {
   const { data, isLoading } = useGetTasksQuery(undefined);
@@ -63,7 +63,7 @@ const TaskPage = () => {
           <Table.HeadCell>Action</Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-gray-25 divide-y">
-          {tasks?.map((task, index: number) => (
+          {tasks?.map((task: any, index: number) => (
             <TableRow task={task} key={index} />
           ))}
         </Table.Body>

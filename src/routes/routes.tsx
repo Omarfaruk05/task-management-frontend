@@ -6,6 +6,7 @@ import { NotFoundPage } from "../pages/NotFoundPage";
 import TaskPage from "../pages/TaskPage";
 import LoginPage from "../pages/LoginPage";
 import CreateTaskPage from "../pages/CreateTaskPage";
+import UpdateTaskPage from "../pages/UpdateTaskPage";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: "/task/create",
         element: <CreateTaskPage />,
+      },
+      {
+        path: "/task/:id",
+        element: <UpdateTaskPage />,
       },
     ],
   },

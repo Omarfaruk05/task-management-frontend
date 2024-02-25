@@ -22,7 +22,7 @@ export const taskApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.task],
     }),
     getSingtask: build.query({
-      query: (id: any) => ({
+      query: (id) => ({
         url: `${TASK_URL}/${id}`,
         method: "GET",
       }),

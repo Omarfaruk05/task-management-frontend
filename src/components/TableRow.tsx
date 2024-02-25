@@ -3,8 +3,9 @@ import { Badge, Button, Table } from "keep-react";
 import { Trash, Pencil } from "phosphor-react";
 import { useDeleteTaskMutation } from "../redux/api/taskApi";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
-const TableRow = ({ task }) => {
+const TableRow = ({ task }: any) => {
   const [deleteTask] = useDeleteTaskMutation();
   const handleDeleteTask = async () => {
     try {
@@ -39,9 +40,12 @@ const TableRow = ({ task }) => {
         </Badge>
       </Table.Cell>
       <Table.Cell className="flex items-center gap-2">
-        <Button type={"primary"} size={"sm"} color="warning">
-          <Pencil />
-        </Button>
+        <Link to={`/task/${task?.id}`}>
+          {" "}
+          <Button type={"primary"} size={"sm"} color="warning">
+            <Pencil />
+          </Button>
+        </Link>
         <Button type={"primary"} size={"sm"} color="error">
           <Trash onClick={handleDeleteTask} />
         </Button>
