@@ -1,17 +1,50 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Label, TextInput } from "keep-react";
 import backgroundImage from "../assets/loginbg.svg";
-import { EyeSlash, Envelope, Lock, UserFocus } from "phosphor-react";
+import { EyeSlash, Envelope, Lock } from "phosphor-react";
+import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { getUserInfo, storeUserInfo } from "../services/auth.service";
+import { loginSuccess } from "../redux/slice/userSlice";
+import { useUserLoginMutation } from "../redux/api/authApi";
 
 const LoginPage = () => {
-  const handleLogin = (e: any) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [login] = useUserLoginMutation();
+
+  const handleLogin = async (e: any) => {
     e.preventDefault();
 
-    const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    console.log(email, name, password);
+    const userInfo = { email, password };
+    console.log(userInfo);
+    try {
+      const res = await login(userInfo).unwrap();
+      console.log(res);
+
+      if (res?.errorMessages) {
+        toast.error(`${res?.errorMessages}`);
+      }
+
+      if (res) {
+        navigate("/");
+        toast.success("Login Successfull.");
+        await storeUserInfo({ accessToken: res?.accessToken });
+      }
+
+      const { id } = (await getUserInfo()) as any;
+
+      if (id) {
+        dispatch(loginSuccess());
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
   return (
     <div>
