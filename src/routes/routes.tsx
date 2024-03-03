@@ -1,17 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import App from "../App";
-import SingIn from "../pages/SingInPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import TaskPage from "../pages/TaskPage";
 import LoginPage from "../pages/LoginPage";
 import CreateTaskPage from "../pages/CreateTaskPage";
 import UpdateTaskPage from "../pages/UpdateTaskPage";
+import Auth from "../components/Auth";
+import SingUpPage from "../pages/SingUpPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <Auth>
+        <App />
+      </Auth>
+    ),
     children: [
       {
         path: "/",
@@ -33,7 +38,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup",
-    element: <SingIn />,
+    element: <SingUpPage />,
   },
   {
     path: "/login",

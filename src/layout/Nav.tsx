@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Avatar, Button, Navbar } from "keep-react";
+import { Avatar, Button, Navbar, Spinner } from "keep-react";
 import { Link } from "react-router-dom";
 import { getUserInfo } from "../services/auth.service";
+import { useGetMyProfileQuery } from "../redux/api/userApi";
 
 const Nav = () => {
   const { email }: any = getUserInfo();
+  const { data } = useGetMyProfileQuery(undefined);
+  const user = data?.data;
   return (
     <div className="">
       <div className="max-w-7xl mx-auto lg:py-3">
@@ -21,7 +24,9 @@ const Nav = () => {
                   <span>
                     <Avatar shape="circle" />
                   </span>
-                  <span className="font-semibold">Omar Faruk</span>
+                  <span className="font-semibold">
+                    {user ? user?.name : <Spinner color="info" size="md" />}
+                  </span>
                 </div>
               ) : (
                 <>

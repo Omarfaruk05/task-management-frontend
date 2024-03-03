@@ -23,7 +23,11 @@ export const SidebarComponent = () => {
           <Sidebar.Item href="#" icon={<Users size={24} />}>
             Users
           </Sidebar.Item>
-          <Sidebar.Item onClick={handleLogout} icon={<SignIn size={24} />}>
+          <Sidebar.Item
+            href=""
+            onClick={handleLogout}
+            icon={<SignIn size={24} />}
+          >
             Log Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>

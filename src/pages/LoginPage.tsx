@@ -4,7 +4,7 @@ import backgroundImage from "../assets/loginbg.svg";
 import { EyeSlash, Envelope, Lock } from "phosphor-react";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getUserInfo, storeUserInfo } from "../services/auth.service";
 import { loginSuccess } from "../redux/slice/userSlice";
 import { useUserLoginMutation } from "../redux/api/authApi";
@@ -85,12 +85,15 @@ const LoginPage = () => {
             </div>
             <div className="mt-4">
               <input
-                className="bg-green-300 w-full py-2 rounded-md font-semibold uppercase"
+                className="cursor-pointer hover:bg-green-400 bg-green-300 w-full py-2 rounded-md font-semibold uppercase"
                 type="submit"
                 value="Login"
               />
             </div>
           </form>
+          <small className="ml-2 text-sky-600 hover:underline">
+            <Link to={"/signup"}>Create a new account?</Link>
+          </small>
         </div>
         <div
           style={{ backgroundImage: `url(${backgroundImage})` }}

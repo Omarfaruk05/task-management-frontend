@@ -1,17 +1,32 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Label, TextInput } from "keep-react";
 import backgroundImage from "../assets/signup.svg";
 import { EyeSlash, Envelope, Lock, UserFocus } from "phosphor-react";
+import { Link, useNavigate } from "react-router-dom";
+import { useUserSignUpMutation } from "../redux/api/authApi";
+import { toast } from "react-toastify";
 
-const SingInPage = () => {
-  const handleSignIn = (e: any) => {
+const SingUpPage = () => {
+  const navigate = useNavigate();
+  const [signup] = useUserSignUpMutation();
+  const handleSignIn = async (e: any) => {
     e.preventDefault();
 
     const name = e.target.name.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const user = { name, email, password };
 
-    console.log(email, name, password);
+    try {
+      const res = await signup(user).unwrap();
+      if (res) {
+        toast.success("Login Successfull.");
+        navigate("/login");
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
   return (
     <div>
@@ -66,12 +81,15 @@ const SingInPage = () => {
             </div>
             <div className="mt-4">
               <input
-                className="bg-green-300 w-full py-2 rounded-md font-semibold uppercase"
+                className="cursor-pointer hover:bg-green-400 bg-green-300 w-full py-2 rounded-md font-semibold uppercase"
                 type="submit"
                 value="Sign Up"
               />
             </div>
           </form>
+          <small className="ml-2 text-sky-600 hover:underline">
+            <Link to={"/login"}>Already have an account?</Link>
+          </small>
         </div>
         <div
           style={{ backgroundImage: `url(${backgroundImage})` }}
@@ -82,4 +100,4 @@ const SingInPage = () => {
   );
 };
 
-export default SingInPage;
+export default SingUpPage;

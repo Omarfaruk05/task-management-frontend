@@ -17,11 +17,11 @@ export const authApi = baseApi.injectEndpoints({
       query: (data) => ({
         url: `${AUTH_URL}/signup`,
         method: "POST",
-        data,
+        body: data,
       }),
       invalidatesTags: [tagTypes.auth],
     }),
   }),
 });
 
-export const { useUserLoginMutation } = authApi;
+export const { useUserLoginMutation, useUserSignUpMutation } = authApi;
