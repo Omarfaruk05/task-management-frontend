@@ -28,12 +28,10 @@ const UpdateTaskPage = () => {
     const updatedTaskData = { title, description, status: selecttedStatus };
     try {
       const res = await updateTask({ id, updatedTaskData }).unwrap();
-      console.log(res);
 
       if (!res) {
         toast.error("Somthing went Wrong");
       }
-      console.log(res);
       if (res?.success) {
         toast.success(`${res?.message}`);
       }
@@ -52,8 +50,8 @@ const UpdateTaskPage = () => {
   return (
     <div className="flex justify-center">
       <div className="md:m-4 w-full max-w-[800px]">
-        <h1 className="mt-40 md:mt-12 mb-4 font-bold text-center text-4xl text-green-800">
-          Create Your Task
+        <h1 className="mt-40 md:mt-12 mb-4 font-bold text-center text-4xl text-orange-800">
+          Update Your Task
         </h1>
         <form onSubmit={handleTaskSubmit}>
           <div>
@@ -102,9 +100,9 @@ const UpdateTaskPage = () => {
           </div>
           <div className="mt-4">
             <input
-              className="bg-green-300 w-full py-2 rounded-md font-semibold uppercase"
+              className="cursor-pointer hover:bg-orange-200 bg-orange-300 w-full py-2 rounded-md font-semibold uppercase"
               type="submit"
-              value="Create"
+              value="Update"
             />
           </div>
         </form>

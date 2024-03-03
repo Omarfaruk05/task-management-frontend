@@ -24,9 +24,7 @@ const CreateTaskPage = () => {
     e.preventDefault();
     const title = e.target.title.value;
     const description = e.target.description.value;
-
     const taskData = { title, description, dueDate, user: _id };
-    console.log(taskData);
     try {
       const res = await createTitle(taskData).unwrap();
       console.log(res);

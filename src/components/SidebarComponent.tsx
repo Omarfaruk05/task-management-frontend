@@ -1,8 +1,16 @@
 "use client";
 import { Sidebar } from "keep-react";
 import { Chat, UserCircle, SignIn, Users } from "phosphor-react";
+import { useNavigate } from "react-router-dom";
+import { AUTH_KEY, removeUserInfo } from "../services/auth.service";
 
 export const SidebarComponent = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    removeUserInfo(AUTH_KEY);
+    navigate("/login");
+  };
   return (
     <div className="bg-gray-400">
       <Sidebar>
@@ -15,7 +23,7 @@ export const SidebarComponent = () => {
           <Sidebar.Item href="#" icon={<Users size={24} />}>
             Users
           </Sidebar.Item>
-          <Sidebar.Item href="#" icon={<SignIn size={24} />}>
+          <Sidebar.Item onClick={handleLogout} icon={<SignIn size={24} />}>
             Log Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
