@@ -4,9 +4,15 @@ import { Trash, Pencil } from "phosphor-react";
 import { useDeleteTaskMutation } from "../redux/api/taskApi";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { getUserInfo } from "../services/auth.service";
 
 const TableRow = ({ task }: any) => {
   const [deleteTask] = useDeleteTaskMutation();
+
+  const { _id }: any = getUserInfo();
+
+  console.log(_id, task.user);
+
   const handleDeleteTask = async () => {
     try {
       const res = await deleteTask(task?._id).unwrap();
@@ -39,17 +45,23 @@ const TableRow = ({ task }: any) => {
           {task?.status}
         </Badge>
       </Table.Cell>
-      <Table.Cell className="flex items-center gap-2">
-        <Link to={`/task/${task?.id}`}>
-          {" "}
-          <Button type={"primary"} size={"sm"} color="warning">
-            <Pencil />
+      {task?.user === _id || task?.user === "admin" ? (
+        <Table.Cell className="flex items-center gap-2">
+          <Link to={`/task/${task?.id}`}>
+            {" "}
+            <Button type={"primary"} size={"sm"} color="warning">
+              <Pencil />
+            </Button>
+          </Link>
+          <Button type={"primary"} size={"sm"} color="error">
+            <Trash onClick={handleDeleteTask} />
           </Button>
-        </Link>
-        <Button type={"primary"} size={"sm"} color="error">
-          <Trash onClick={handleDeleteTask} />
-        </Button>
-      </Table.Cell>
+        </Table.Cell>
+      ) : (
+        <Table.Cell>
+          <Badge colorType={"light"}>It's not yours</Badge>
+        </Table.Cell>
+      )}
     </Table.Row>
   );
 };

@@ -8,6 +8,7 @@ import CreateTaskPage from "../pages/CreateTaskPage";
 import UpdateTaskPage from "../pages/UpdateTaskPage";
 import Auth from "../components/Auth";
 import SingUpPage from "../pages/SingUpPage";
+import MyProfilePage from "../pages/MyProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/task/:id",
         element: <UpdateTaskPage />,
+      },
+      {
+        path: "/my-profile",
+        element: <MyProfilePage />,
       },
     ],
   },

@@ -1,11 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Sidebar } from "keep-react";
 import { Chat, UserCircle, SignIn, Users } from "phosphor-react";
-import { useNavigate } from "react-router-dom";
-import { AUTH_KEY, removeUserInfo } from "../services/auth.service";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  AUTH_KEY,
+  getUserInfo,
+  removeUserInfo,
+} from "../services/auth.service";
 
 export const SidebarComponent = () => {
   const navigate = useNavigate();
+
+  const { role }: any = getUserInfo();
 
   const handleLogout = () => {
     removeUserInfo(AUTH_KEY);
@@ -15,14 +22,19 @@ export const SidebarComponent = () => {
     <div className="bg-gray-400">
       <Sidebar>
         <Sidebar.ItemGroup className="w-full min-w-fit md:w-40 lg:w-60">
-          <Sidebar.Item icon={<UserCircle size={24} />}>Profile</Sidebar.Item>
+          <Link to={"/my-profile"}>
+            <Sidebar.Item icon={<UserCircle size={24} />}>Profile</Sidebar.Item>
+          </Link>
 
-          <Sidebar.Item href="/task" icon={<Chat size={24} />}>
-            Tasks
-          </Sidebar.Item>
-          <Sidebar.Item href="#" icon={<Users size={24} />}>
-            Users
-          </Sidebar.Item>
+          <Link to={"/task"}>
+            {" "}
+            <Sidebar.Item icon={<Chat size={24} />}>Tasks</Sidebar.Item>
+          </Link>
+          {role === "admin" && (
+            <Sidebar.Item href="#" icon={<Users size={24} />}>
+              Users
+            </Sidebar.Item>
+          )}
           <Sidebar.Item
             href=""
             onClick={handleLogout}

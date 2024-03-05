@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Label, TextInput } from "keep-react";
+import { Button, Label, Spinner, TextInput } from "keep-react";
 import backgroundImage from "../assets/loginbg.svg";
 import { EyeSlash, Envelope, Lock } from "phosphor-react";
 import { useDispatch } from "react-redux";
@@ -8,8 +8,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { getUserInfo, storeUserInfo } from "../services/auth.service";
 import { loginSuccess } from "../redux/slice/userSlice";
 import { useUserLoginMutation } from "../redux/api/authApi";
+import { useState } from "react";
+import { Key } from "phosphor-react";
 
 const LoginPage = () => {
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -23,14 +28,16 @@ const LoginPage = () => {
 
     const userInfo = { email, password };
     try {
+      setLoading(true);
       const res = await login(userInfo).unwrap();
       console.log(res);
 
-      if (res?.errorMessages) {
-        toast.error(`${res?.errorMessages}`);
+      if (!res?.success) {
+        toast.error(`${res?.message}`);
+        setLoading(false);
       }
-      console.log(res);
-      if (res) {
+      if (res?.success) {
+        setLoading(false);
         navigate("/");
         toast.success("Login Successfull.");
         await storeUserInfo({ accessToken: res?.data?.accessToken });
@@ -42,8 +49,14 @@ const LoginPage = () => {
         dispatch(loginSuccess());
       }
     } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error?.data?.message);
+      setLoading(false);
     }
+  };
+
+  const handleCredentials = (pass: string, email: string) => {
+    setPassword(pass);
+    setEmail(email);
   };
   return (
     <div>
@@ -65,6 +78,7 @@ const LoginPage = () => {
                 addonPosition="left"
                 iconPosition="right"
                 required
+                value={email}
               />
             </div>
             <div>
@@ -81,19 +95,54 @@ const LoginPage = () => {
                 icon={<EyeSlash size={20} color="#5E718D" />}
                 iconPosition="right"
                 required
+                value={password}
               />
             </div>
             <div className="mt-4">
-              <input
-                className="cursor-pointer hover:bg-green-400 bg-green-300 w-full py-2 rounded-md font-semibold uppercase"
-                type="submit"
-                value="Login"
-              />
+              {!loading ? (
+                <div>
+                  <input
+                    className="text-center cursor-pointer hover:bg-green-400 bg-green-300 w-full py-2 rounded-md font-semibold uppercase"
+                    type="submit"
+                    value="Login"
+                  />
+                </div>
+              ) : (
+                <div className="text-center cursor-pointer hover:bg-green-400 bg-green-300 w-full py-2 rounded-md font-semibold uppercase">
+                  <Spinner color="info" size="md" />
+                </div>
+              )}
             </div>
           </form>
           <small className="ml-2 text-sky-600 hover:underline">
             <Link to={"/signup"}>Create a new account?</Link>
           </small>
+          <div className="my-8">
+            <h3 className="flex gap-3  justify-center py-2 text-center mb-4 text-green-900 bg-gray-50 rounded-md">
+              <span> Credentials icon</span>
+              <span>{<Key size={24} />}</span>
+            </h3>
+            <div className="flex gap-2 flex-wrap justify-center">
+              <Button
+                size={"xs"}
+                onClick={() =>
+                  handleCredentials("123456", "shariful@gmail.com")
+                }
+                type="dashed"
+              >
+                User
+              </Button>
+              <Button
+                size={"xs"}
+                onClick={() =>
+                  handleCredentials("123456", "omarfaruk@gmail.com")
+                }
+                type="dashed"
+              >
+                Admin{" "}
+              </Button>
+            </div>
+          </div>
         </div>
         <div
           style={{ backgroundImage: `url(${backgroundImage})` }}
